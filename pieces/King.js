@@ -5,20 +5,18 @@ class King extends Piece {
     return this.color === "white" ? "WK" : "BK";
   }
 
-  isValidMove(from, to, board) {
-    const fromRow = from.row;
-    const fromCol = from.col;
-    const toRow = to.row;
-    const toCol = to.col;
-    const targetSquare = board[toRow][toCol];
+  isValidMove(from, to, board, moveHistory) {
+    const rowDiff = Math.abs(to.row - from.row);
+    const colDiff = Math.abs(to.col - from.col);
+    const targetSquare = board[to.row][to.col];
 
-    if(Math.abs(toRow - fromRow) === 1 || Math.abs(toCol - fromCol) === 1){
-        
-        //capture logic
-        if(!targetSquare || (targetSquare.color !== this.color)){
-            return { valid: true, capture: !!targetSquare };
-        }
-        else return { valid: false };
+    if(rowDiff <= 1 && colDiff <= 1){
+      if(!targetSquare || targetSquare.color !== this.color){
+        return { valid: true, capture: !!targetSquare};
+      }
+      else {
+        return { valid: false };
+      }
     }
     return { valid: false };
   }
